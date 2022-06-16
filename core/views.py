@@ -25,11 +25,19 @@ def doLogin(request):
             messages.error(request, "Please provide all the details!!")
             return render(request, "login_page.html")
 
-        u = CustomUser.objects.get(email=email)
-        user = authenticate(username=u.username, password=password)
-        if not user:
-            messages.error(request, "Invalid Login Credentials!!")
+        try:
+            u = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            u = None
+        if u:
+            user = authenticate(username=u.username, password=password)
+            if not user:
+                messages.error(request, "Invalid Login Credentials!!")
+                return render(request, "login_page.html")
+        else:
+            messages.error(request, "Invalid Login Email Id!!")
             return render(request, "login_page.html")
+            
 
         login(request, user)
 
