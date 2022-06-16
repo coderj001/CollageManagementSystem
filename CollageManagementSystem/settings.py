@@ -1,13 +1,32 @@
+import imp
+import os
+from distutils.util import strtobool
 from pathlib import Path
+
+from django.conf import settings
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENV_FILE = BASE_DIR / ".env"
 
-SECRET_KEY = "django-insecure-9gbsa6iyo*_uz5#r0^67%p_9bui4e$_hn4+c2i4@*6e%ngu^-5"
+if os.path.exists(ENV_FILE):
+    load_dotenv(dotenv_path=ENV_FILE)
 
-DEBUG = True
+STATIC_DIR = BASE_DIR / "static"
+MEDIA_DIR = BASE_DIR / "media"
 
-ALLOWED_HOSTS = []
+
+SECRET_KEY = os.getenv(
+    "secret_key", "django-insecure-9gbsa6iyo*_uz5#r0^67%p_9bui4e$_hn4+c2i4@*6e%ngu^-5"
+)
+
+DEBUG = bool(strtobool(os.getenv("debug", "True")))
+
+if os.getenv("allowed_hosts", None):
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", os.getenv("allowed_hosts")]
+else:
+    ALLOWED_HOSTS = ["*"]
 
 
 INSTALLED_APPS = [
@@ -16,12 +35,14 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
-    "core",
+    "core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -51,12 +72,24 @@ TEMPLATES = [
 WSGI_APPLICATION = "CollageManagementSystem.wsgi.application"
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if bool(strtobool(os.getenv("mysql", "False"))):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.getenv("db_name"),
+            "USER": os.getenv("db_username"),
+            "PASSWORD": os.getenv("db_password"),
+            "HOST": os.getenv("db_host"),
+            "PORT": os.getenv("db_port"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -85,4 +118,71 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'core.CustomUser'
+AUTH_USER_MODEL = "core.CustomUser"
+
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = "/media/"
+
+
+WHITENOISE_USE_FINDERS = True
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+
+if not settings.DEBUG:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "filters": {
+            "require_debug_false": {
+                "()": "django.utils.log.RequireDebugFalse",
+            },
+            "require_debug_true": {
+                "()": "django.utils.log.RequireDebugTrue",
+            },
+        },
+        "formatters": {
+            "django.server": {
+                "()": "django.utils.log.ServerFormatter",
+                "format": "[%(server_time)s] %(message)s",
+            }
+        },
+        "handlers": {
+            "console": {
+                "level": "INFO",
+                "filters": ["require_debug_true"],
+                "class": "logging.StreamHandler",
+            },
+            "console_debug_false": {
+                "level": "ERROR",
+                "filters": ["require_debug_false"],
+                "class": "logging.StreamHandler",
+            },
+            "django.server": {
+                "level": "INFO",
+                "class": "logging.StreamHandler",
+                "formatter": "django.server",
+            },
+            "mail_admins": {
+                "level": "ERROR",
+                "filters": ["require_debug_false"],
+                "class": "django.utils.log.AdminEmailHandler",
+            },
+        },
+        "loggers": {
+            "django": {
+                "handlers": ["console", "console_debug_false", "mail_admins"],
+                "level": "INFO",
+            },
+            "django.server": {
+                "handlers": ["django.server"],
+                "level": "INFO",
+                "propagate": False,
+            },
+        },
+    }

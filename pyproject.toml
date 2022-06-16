@@ -7,9 +7,13 @@ authors = ["raju ghorai <amirajubolchi001@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "^4.0.5"
+python-dotenv = "^0.20.0"
+Pillow = "^9.1.1"
+whitenoise = "^6.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
+isort = "^5.10.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
