@@ -1,4 +1,3 @@
-import imp
 import os
 from distutils.util import strtobool
 from pathlib import Path
@@ -133,6 +132,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 if not settings.DEBUG:
     LOGGING = {
