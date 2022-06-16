@@ -128,7 +128,7 @@ body{
 
 <div class="login-dark form-inline py-0 mx-4 my-4 pl-4 pr-4">
 	
-	<form action="{% url 'doLogin' %}" method="get">
+	<form action="{% url 'doLogin' %}" method="post">
 		{% csrf_token %}
 		<h1 class="text-center">Login</h1>
 		
