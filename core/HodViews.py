@@ -365,7 +365,6 @@ def add_student_save(request):
             try:
                 user = CustomUser.objects.create_user(
                     username=username,
-                    password=password,
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
@@ -381,6 +380,8 @@ def add_student_save(request):
 
                 user.students.gender = gender
                 user.students.profile_pic = profile_pic_url
+                user.save(commit=False)
+                user.set_password(password)
                 user.save()
                 messages.success(request, "Student Added Successfully!")
                 return redirect("add_student")
