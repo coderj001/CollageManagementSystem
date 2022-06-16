@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
-                              render)
+from django.shortcuts import HttpResponse, HttpResponseRedirect, redirect, render
 
 from .models import AdminHOD, CustomUser, Staffs, Students
 
@@ -19,32 +18,27 @@ def loginUser(request):
 
 
 def doLogin(request):
+    if request.method == "POST":
+        email = request.POST.get("email", None)
+        password = request.POST.get("password", None)
+        if not (email and password):
+            messages.error(request, "Please provide all the details!!")
+            return render(request, "login_page.html")
 
-    print("here")
-    email_id = request.GET.get("email")
-    password = request.GET.get("password")
-    # user_type = request.GET.get('user_type')
-    print(email_id)
-    print(password)
-    print(request.user)
-    if not (email_id and password):
-        messages.error(request, "Please provide all the details!!")
-        return render(request, "login_page.html")
+        u = CustomUser.objects.get(email=email)
+        user = authenticate(username=u.username, password=password)
+        if not user:
+            messages.error(request, "Invalid Login Credentials!!")
+            return render(request, "login_page.html")
 
-    user = CustomUser.objects.filter(email=email_id, password=password).last()
-    if not user:
-        messages.error(request, "Invalid Login Credentials!!")
-        return render(request, "login_page.html")
+        login(request, user)
 
-    login(request, user)
-    print(request.user)
-
-    if user.user_type == CustomUser.STUDENT:
-        return redirect("student_home/")
-    elif user.user_type == CustomUser.STAFF:
-        return redirect("staff_home/")
-    elif user.user_type == CustomUser.HOD:
-        return redirect("admin_home/")
+        if user.user_type == CustomUser.STUDENT:
+            return redirect("student_home/")
+        elif user.user_type == CustomUser.STAFF:
+            return redirect("staff_home/")
+        elif user.user_type == CustomUser.HOD:
+            return redirect("admin_home/")
 
     return render(request, "home.html")
 
