@@ -50,6 +50,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Django developent plugins
+if settings.DEBUG:
+    INSTALLED_APPS.append("django_extensions")
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    INTERNAL_IPS = [
+    "127.0.0.1",
+    "localhost",
+    ]
+
+
 ROOT_URLCONF = "CollageManagementSystem.urls"
 
 TEMPLATES = [
