@@ -8,20 +8,10 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import AddStudentForm, EditStudentForm
-from .models import (
-    Attendance,
-    AttendanceReport,
-    Courses,
-    CustomUser,
-    FeedBackStaffs,
-    FeedBackStudent,
-    LeaveReportStaff,
-    LeaveReportStudent,
-    SessionYearModel,
-    Staffs,
-    Students,
-    Subjects,
-)
+from .models import (Attendance, AttendanceReport, Courses, CustomUser,
+                     FeedBackStaffs, FeedBackStudent, LeaveReportStaff,
+                     LeaveReportStudent, SessionYearModel, Staffs, Students,
+                     Subjects)
 
 
 def admin_home(request):

@@ -6,18 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .models import (
-    Attendance,
-    AttendanceReport,
-    Courses,
-    CustomUser,
-    FeedBackStudent,
-    LeaveReportStudent,
-    Staffs,
-    StudentResult,
-    Students,
-    Subjects,
-)
+from .models import (Attendance, AttendanceReport, Courses, CustomUser,
+                     FeedBackStudent, LeaveReportStudent, Staffs,
+                     StudentResult, Students, Subjects)
 
 
 def student_home(request):
@@ -47,16 +38,18 @@ def student_home(request):
         data_present.append(attendance_present_count)
         data_absent.append(attendance_absent_count)
 
-        context = {
-            "total_attendance": total_attendance,
-            "attendance_present": attendance_present,
-            "attendance_absent": attendance_absent,
-            "total_subjects": total_subjects,
-            "subject_name": subject_name,
-            "data_present": data_present,
-            "data_absent": data_absent,
-        }
-        return render(request, "student_template/student_home_template.html")
+    context = {
+        "total_attendance": total_attendance,
+        "attendance_present": attendance_present,
+        "attendance_absent": attendance_absent,
+        "total_subjects": total_subjects,
+        "subject_name": subject_name,
+        "data_present": data_present,
+        "data_absent": data_absent,
+    }
+    return render(
+        request, "student_template/student_home_template.html", context=context
+    )
 
 
 def student_view_attendance(request):
