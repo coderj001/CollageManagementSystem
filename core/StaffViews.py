@@ -8,19 +8,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import (
-    Attendance,
-    AttendanceReport,
-    Courses,
-    CustomUser,
-    FeedBackStaffs,
-    LeaveReportStaff,
-    SessionYearModel,
-    Staffs,
-    StudentResult,
-    Students,
-    Subjects,
-)
+from .models import (Attendance, AttendanceReport, Courses, CustomUser,
+                     FeedBackStaffs, LeaveReportStaff, SessionYearModel,
+                     Staffs, StudentResult, Students, Subjects)
 
 
 def staff_home(request):

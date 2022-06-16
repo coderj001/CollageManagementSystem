@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import HttpResponse, HttpResponseRedirect, redirect, render
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
+                              render)
 
 from .models import AdminHOD, CustomUser, Staffs, Students
 
@@ -37,7 +38,6 @@ def doLogin(request):
         else:
             messages.error(request, "Invalid Login Email Id!!")
             return render(request, "login_page.html")
-            
 
         login(request, user)
 
