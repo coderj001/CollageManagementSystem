@@ -213,4 +213,33 @@ urlpatterns = [
         HodViews.admin_profile_update,
         name="admin_profile_update",
     ),
+    path("curriculum/", views.StandardListView.as_view(), name="standard_list"),
+    path(
+        "curriculum/<slug:slug>/", views.SubjectListView.as_view(), name="subject_list"
+    ),
+    path(
+        "curriculum/<str:standard>/<slug:slug>/",
+        views.LessonListView.as_view(),
+        name="lesson_list",
+    ),
+    path(
+        "curriculum/<str:standard>/<str:slug>/create/",
+        views.LessonCreateView.as_view(),
+        name="lesson_create",
+    ),
+    path(
+        "curriculum/<str:standard>/<str:subject>/<slug:slug>/",
+        views.LessonDetailView.as_view(),
+        name="lesson_detail",
+    ),
+    path(
+        "curriculum/<str:standard>/<str:subject>/<slug:slug>/update/",
+        views.LessonUpdateView.as_view(),
+        name="lesson_update",
+    ),
+    path(
+        "curriculum/<str:standard>/<str:subject>/<slug:slug>/delete/",
+        views.LessonDeleteView.as_view(),
+        name="lesson_delete",
+    ),
 ]

@@ -1,8 +1,14 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from core.models import (AdminHOD, Courses, CustomUser, SessionYearModel,
-                         Staffs, Students)
+from core.models import (
+    AdminHOD,
+    Courses,
+    CustomUser,
+    SessionYearModel,
+    Staffs,
+    Students,
+)
 
 
 @receiver(post_save, sender=CustomUser)
