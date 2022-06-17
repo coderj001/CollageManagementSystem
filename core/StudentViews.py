@@ -6,9 +6,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .models import (Attendance, AttendanceReport, Courses, CustomUser,
-                     FeedBackStudent, LeaveReportStudent, Staffs,
-                     StudentResult, Students, Subjects)
+from .models import (
+    Attendance,
+    AttendanceReport,
+    Courses,
+    CustomUser,
+    FeedBackStudent,
+    LeaveReportStudent,
+    Staffs,
+    StudentResult,
+    Students,
+    Subjects,
+)
 
 
 def student_home(request):

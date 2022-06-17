@@ -8,10 +8,20 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import AddStudentForm, EditStudentForm
-from .models import (Attendance, AttendanceReport, Courses, CustomUser,
-                     FeedBackStaffs, FeedBackStudent, LeaveReportStaff,
-                     LeaveReportStudent, SessionYearModel, Staffs, Students,
-                     Subjects)
+from .models import (
+    Attendance,
+    AttendanceReport,
+    Courses,
+    CustomUser,
+    FeedBackStaffs,
+    FeedBackStudent,
+    LeaveReportStaff,
+    LeaveReportStudent,
+    SessionYearModel,
+    Staffs,
+    Students,
+    Subjects,
+)
 
 
 def admin_home(request):
@@ -370,13 +380,13 @@ def add_student_save(request):
 
                 user.students.gender = gender
                 user.students.profile_pic = profile_pic_url
-                user.save(commit=False)
                 user.set_password(password)
                 user.save()
                 messages.success(request, "Student Added Successfully!")
                 return redirect("add_student")
-            except:
+            except Exception as e:
                 messages.error(request, "Failed to Add Student!")
+                print(e)
                 return redirect("add_student")
         else:
             return redirect("add_student")
