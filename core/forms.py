@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Courses, SessionYearModel
+from core.models import Assigment, Courses, SessionYearModel
 
 
 class DateInput(forms.DateInput):
@@ -146,3 +146,25 @@ class EditStudentForm(forms.Form):
         required=False,
         widget=forms.FileInput(attrs={"class": "form-control"}),
     )
+
+
+class AssigmentForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Name",
+        max_length=50,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    question_paper = forms.FileField(
+        label="Question Paper",
+        required=True,
+        widget=forms.FileInput(attrs={"class": "form-control"}),
+    )
+    description = forms.CharField(
+        label="Description",
+        max_length=50,
+        widget=forms.Textarea(attrs={"cols": 80, "rows": 5}),
+    )
+
+    class Meta:
+        model = Assigment
+        fields = ["name", "question_paper", "description"]

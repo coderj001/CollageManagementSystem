@@ -106,6 +106,11 @@ urlpatterns = [
         StaffViews.staff_add_result_save,
         name="staff_add_result_save",
     ),
+    path(
+        "staff_add_assigment/",
+        StaffViews.staff_assigment,
+        name="staff_add_assigment",
+    ),
     # URL for Admin
     path("admin_home/", HodViews.admin_home, name="admin_home"),
     path("add_staff/", HodViews.add_staff, name="add_staff"),
