@@ -413,3 +413,6 @@ def staff_assigment(request):
     assigments = Assigment.objects.filter(created_by=user)
     context = {"assigments": assigments, "form": form}
     return render(request, "staff_template/add_assigment.html", context)
+
+def suff_assigment_submit(request):
+    pass

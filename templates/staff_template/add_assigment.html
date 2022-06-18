@@ -99,12 +99,9 @@
                                 <tr>
                                 <td>{{ assigment.name }}</td>
                                 <td>{{ assigment.created_at }}</td>
-                                <td>{{ assigment.subject.name }}</td>
-                                <td>{{ assigment.question_paper }}</td>
+                                <td>{{ assigment.subject.subject_name }}</td>
+                                <td><a href="{{assigment.question_paper.url}}">{{ assigment.question_paper }}</a></td>
                                 <td>{{ assigment.status }}</td>
-                                <td>
-                                    <!-- <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger">Delete</a> -->
-                                </td>
                                 </tr>
                                 {% endfor %}
                                 
