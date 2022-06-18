@@ -245,3 +245,42 @@ class StudentResult(models.Model):
         verbose_name = _("StudentResult")
         verbose_name_plural = _("StudentResults")
         db_table = "student_result"
+
+
+class Assigment(models.Model):
+    created_by = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    subject = models.ForeignKey(
+        Subjects, on_delete=models.DO_NOTHING, related_name="assigment", null=True
+    )
+    name = models.CharField(max_length=250)
+    question_paper = models.FileField(
+        upload_to="stuff_upload", verbose_name="Question Paper", blank=False
+    )
+    status = models.BooleanField(default=True)
+    description = models.TextField(null=True)
+
+    class Meta:
+        verbose_name = _("Assigment")
+        verbose_name_plural = _("Assigments")
+        db_table = "assigment"
+
+    def __str__(self):
+        return self.name
+
+
+class AnswerPaper(models.Model):
+    submited_by = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=250)
+    answer_paper = models.FileField(
+        upload_to="student_upload", verbose_name="Answer Paper", blank=False
+    )
+
+    class Meta:
+        verbose_name = _("AnswerPaper")
+        verbose_name_plural = _("AnswerPapers")
+        db_table = "answer_paper"
+
+    def __str__(self):
+        return self.name

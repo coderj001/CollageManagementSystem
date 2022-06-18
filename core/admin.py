@@ -17,6 +17,8 @@ from .models import (
     Staffs,
     Students,
     Subjects,
+    Assigment,
+    AnswerPaper
 )
 
 
@@ -40,3 +42,5 @@ admin.site.register(FeedBackStudent)
 admin.site.register(FeedBackStaffs)
 admin.site.register(NotificationStudent)
 admin.site.register(NotificationStaffs)
+admin.site.register(Assigment)
+admin.site.register(AnswerPaper)

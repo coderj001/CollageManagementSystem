@@ -1,14 +1,16 @@
 import json
 
 from django.contrib import messages
-from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
+from core.forms import AssigmentForm
+
 from .models import (
+    Assigment,
     Attendance,
     AttendanceReport,
     Courses,
@@ -403,3 +405,14 @@ def staff_add_result_save(request):
         except:
             messages.error(request, "Failed to Add Result!")
             return redirect("staff_add_result")
+
+
+def staff_assigment(request):
+    user = request.user
+    form = AssigmentForm()
+    assigments = Assigment.objects.filter(created_by=user)
+    context = {"assigments": assigments, "form": form}
+    return render(request, "staff_template/add_assigment.html", context)
+
+def suff_assigment_submit(request):
+    pass
